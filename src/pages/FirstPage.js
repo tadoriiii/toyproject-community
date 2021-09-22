@@ -13,7 +13,7 @@ const FirstPage = () => {
       <Title>Ideal store for </Title>
       <Title>your shopping</Title>
       <UnderBar />
-      <Link to="/LogIn">
+      <Link to="/login">
         <LoginWrapper>SIGN IN WITH EMAIL</LoginWrapper>
       </Link>
       {/* <LoginWrapper>SIGN IN WITH EMAIL</LoginWrapper> */}
@@ -54,7 +54,7 @@ const UnderBar = styled.div`
   width: 300px;
 `;
 
-const LoginWrapper = styled.div`
+const LoginWrapper = styled.button`
   position: relative;
   top: 530px;
   left: 40px;

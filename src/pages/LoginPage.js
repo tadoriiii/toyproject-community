@@ -16,7 +16,7 @@ const LoginPage = () => {
         <InputId placeholder="Email" />
         <InputPw placeholder="Password" />
       </InputWrapper>
-      <Link to="/Main">
+      <Link to="/main">
         <SignInWrapper>SIGN IN</SignInWrapper>
       </Link>
     </>
