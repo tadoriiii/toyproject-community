@@ -9,7 +9,6 @@ const GlobalStyle = css`
     font-size: 20px;
     box-sizing: border-box;
     line-height: 1.5;
-    box-sizing: border-box;
     /* height: 812px;
     width: 375px; */
   }

@@ -3,12 +3,14 @@ import styled from "@emotion/styled";
 import { Global } from "@emotion/react";
 import GlobalStyle from "components/GlobalStyle";
 import { Link } from "react-router-dom";
+import { useWindowSize } from "react-use";
 
 const MainPage = () => {
+  const { height } = useWindowSize();
   return (
     <>
       <Global styles={GlobalStyle} />
-      <BackgroundImg />
+
       <Title>Make your</Title>
       <Title>purchases as</Title>
       <UnderBar />
@@ -28,6 +30,8 @@ const MainPage = () => {
           <Category>women</Category>
         </Link>
       </CategoryWrapper>
+
+      {/* <BackgroundImg src="/img/cb.jpeg" style={{ height }} /> */}
     </>
   );
 };
@@ -35,23 +39,24 @@ const MainPage = () => {
 export default MainPage;
 
 const BackgroundImg = styled.img`
-  background-image: url("/img/cb.jpeg");
-  background-size: 375px 812px;
+  width: 100%;
+
   position: absolute;
   top: 0;
   left: 0;
-  z-index: -1;
-  width: 375px;
-  height: 812px;
+  bottom: 0;
+  right: 0;
+
+  z-index: 1;
+  object-fit: cover;
 `;
 
 const Title = styled.div`
   position: relative;
   top: 400px;
   left: 50px;
-  background-color: none;
   font-family: "Roboto", sans-serif;
-  color: black;
+  color: ${(props) => props.theme.colors.primary};
   font-size: 35px;
   font-weight: 900;
   width: 280px;
@@ -69,12 +74,14 @@ const CategoryWrapper = styled.div`
   position: relative;
   top: 450px;
   left: 40px;
+  z-index: 2;
   width: 300px;
   height: 60px;
   display: flex;
   flex-direction: row;
   justify-content: center;
 `;
+
 const Category = styled.button`
   border: 1px solid black;
   border-radius: 25px;

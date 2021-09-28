@@ -3,6 +3,8 @@ import axios from "axios";
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
 import { useWindowSize } from "react-use";
+import { getInformation, getLikeProduct } from "redux/Product";
+import { useDispatch } from "react-redux";
 
 const SingleProduct = ({ id }) => {
   const [product, setProduct] = useState([]);
@@ -10,8 +12,6 @@ const SingleProduct = ({ id }) => {
   const [error, setError] = useState(null);
   const [productCategory, setProductCategory] = useState("");
   const { height } = useWindowSize();
-
-  console.log("id", id);
 
   const fetchProduct = async () => {
     setLoading(true);
@@ -44,6 +44,10 @@ const SingleProduct = ({ id }) => {
     if (product.category === "women's clothing") setProductCategory("women");
   }, [product.category]);
 
+  const dispatch = useDispatch();
+  const getBuyProduct = (product) => dispatch(getInformation(product));
+  const getLike = (likes) => dispatch(getLikeProduct(likes));
+
   if (loading) return <div>Loading...</div>;
   if (error) return <div>error</div>;
 
@@ -59,9 +63,11 @@ const SingleProduct = ({ id }) => {
       <ProductTitle>{product.title}</ProductTitle>
       <ButtonWrapper>
         <Link to="/cart">
-          <Button>Buy</Button>
+          <Button onClick={() => getBuyProduct(product)}>Buy</Button>
         </Link>
-        <Button>Like</Button>
+        <Link to="/like">
+          <Button onClick={() => getLike(product)}>Like</Button>
+        </Link>
       </ButtonWrapper>
       <Description>description</Description>
       <ProductDescription>{product.description}</ProductDescription>
@@ -81,7 +87,7 @@ const TopWrapper = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  border-bottom: 2px solid #ddd;
+  border-bottom: 1px solid #ddd;
 `;
 const BackImage = styled.img`
   width: 27px;

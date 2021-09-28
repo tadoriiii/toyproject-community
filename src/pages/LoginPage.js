@@ -1,10 +1,47 @@
-import React from "react";
+import React, { useState, useCallback } from "react";
+import { useHistory } from "react-router-dom";
+
 import styled from "@emotion/styled";
 import { Global } from "@emotion/react";
 import GlobalStyle from "components/GlobalStyle";
-import { Link } from "react-router-dom";
+
+import { onLogin } from "common/axios";
+import Loading from "components/Loading";
 
 const LoginPage = () => {
+  const history = useHistory();
+
+  const [loading, setLoading] = useState(false);
+  const [input, setInput] = useState({
+    username: "mor_2314",
+    password: "83r5^_",
+  });
+
+  const onChange = (e) => {
+    const { name, value } = e.target;
+    setInput({ ...input, [name]: value });
+  };
+
+  const onClickLogin = useCallback(async () => {
+    setLoading(true);
+
+    try {
+      const response = await onLogin(input);
+      const token = response.data?.token;
+
+      if (token) {
+        localStorage.setItem("token", token);
+        history.push("/main");
+      }
+    } catch (error) {
+      alert("로그인 오류!");
+    }
+
+    // console.log(`pages/LoginPage/onClickLogin`, response);
+
+    setLoading(false);
+  }, [input, history]);
+
   return (
     <>
       <Global styles={GlobalStyle} />
@@ -13,12 +50,23 @@ const LoginPage = () => {
         <Title>your account</Title>
       </Header>
       <InputWrapper>
-        <InputId placeholder="Email" />
-        <InputPw placeholder="Password" />
+        <InputId
+          placeholder="Email"
+          name="username"
+          value={input.username}
+          onChange={onChange}
+        />
+        <InputPw
+          placeholder="Password"
+          name="password"
+          value={input.password}
+          onChange={onChange}
+        />
       </InputWrapper>
-      <Link to="/main">
-        <SignInWrapper>SIGN IN</SignInWrapper>
-      </Link>
+
+      <SignInWrapper onClick={onClickLogin}>SIGN IN</SignInWrapper>
+
+      <Loading view={loading} />
     </>
   );
 };
@@ -60,7 +108,7 @@ const InputPw = styled.input`
   border-bottom: 2px solid #ddd;
 `;
 
-const SignInWrapper = styled.div`
+const SignInWrapper = styled.button`
   border: 2px solid black;
   border-radius: 25px;
   background-color: black;
